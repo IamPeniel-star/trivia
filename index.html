@@ -5,24 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trivia Quiz Game</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div id="quiz-container">
         <h1>Trivia Quiz Game</h1>
         <div id="question-container">
-            <p id="question"></p>
+            <div style="display: flex;" class="just">
+                <p id="question"></p>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div id="read-btn" onclick="readQuestion()"><i class="fa fa-volume-up"></i></div>
+            </div>
             <div id="answer-buttons" class="btn-container"></div>
         </div>
         <div id="answer-feedback" class="answer-feedback"></div>
         <button id="next-btn" onclick="nextQuestion()">Next Question</button>
         <p id="score"></p>
     </div>
+    </div>
 
     
 </body>
     <script>
-
-
 
         // Sample questions array
         const questions = [
@@ -212,11 +217,12 @@
 let currentQuestionIndex = 0;
 let score = 0;
 
-const questionElement = document.getElementById("question");
-const answerButtonsElement = document.getElementById("answer-buttons");
-const nextButton = document.getElementById("next-btn");
-const scoreElement = document.getElementById("score");
-const answerFeedbackElement = document.getElementById("answer-feedback");
+    const questionElement = document.getElementById("question");
+    const answerButtonsElement = document.getElementById("answer-buttons");
+    const nextButton = document.getElementById("next-btn");
+    const readButton = document.getElementById("read-btn");
+    const scoreElement = document.getElementById("score");
+    const answerFeedbackElement = document.getElementById("answer-feedback");
 
 function startQuiz() {
             currentQuestionIndex = 0;
@@ -290,7 +296,15 @@ function resetState() {
             button.onclick="startQuiz()";
         }
 
+
+        function readQuestion() {
+        const question = questions[currentQuestionIndex].question;
+        const utterance = new SpeechSynthesisUtterance(question);
+        speechSynthesis.speak(utterance);
+    }
+
         startQuiz();
+
 
 
 
