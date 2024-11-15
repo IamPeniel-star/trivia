@@ -198,12 +198,12 @@
         ]
     },
     {
-        question: "What is the freezing point of water in Celsius?",
+        question: "Who Created this trivia page",
         answers: [
-            { text: "0°C", correct: true },
-            { text: "32°C", correct: false },
-            { text: "-1°C", correct: false },
-            { text: "100°C", correct: false }
+            { text: "Albert Einstein", correct: false },
+            { text: "Elon Musk", correct: false },
+            { text: "Akinsola.O.Peniel", correct: true },
+            { text: "Mark Zuckerberg", correct: false }
         ]
     }
 ];
@@ -219,12 +219,14 @@ const scoreElement = document.getElementById("score");
 const answerFeedbackElement = document.getElementById("answer-feedback");
 
 function startQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    nextButton.style.display = "none";
-    scoreElement.innerText = "";
-    showQuestion();
-}
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.innerText = "Next";
+            nextButton.onclick = handleNext;
+            scoreElement.innerText = "";
+            showQuestion();
+        }
+
 
 function showQuestion() {
     resetState();
@@ -249,39 +251,48 @@ function resetState() {
         }
 
 
-function nextQuestion() {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-        showQuestion();
-    } else {
-        endQuiz();
-    }
-}
+        function handleNext() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            } else {
+                nextButton.innerText = "Calculate Result";
+                nextButton.onclick = showResultPage;
+            }
+        }
 
-function selectAnswer(answer) {
+
+        function selectAnswer(answer) {
             const correctAnswer = questions[currentQuestionIndex].answers.find(a => a.correct);
-            
+
             if (answer.correct) {
                 score++;
-                answerFeedbackElement.innerText = ""; // Clear feedback on correct answer
+                answerFeedbackElement.innerText = "Correct!";
             } else {
                 answerFeedbackElement.innerText = `Incorrect! The correct answer is: ${correctAnswer.text}`;
             }
 
             nextButton.style.display = "block";
-            
         }
 
-        function endQuiz() {
-            questionElement.innerText = "Quiz Completed!";
-            scoreElement.innerText = `Your final score is ${score} out of ${questions.length}`;
-            nextButton.innerText = "Restart";
-            nextButton.style.display = "block"; // Ensure the Restart button is visible
-            nextButton.onclick = startQuiz;    // Assign startQuiz as the handler
+
+
+
+        function showResultPage() {
+            document.body.innerHTML = `
+                <div id="result-container" style="border: solid black 0.5px; box-shadow: 5px 10px 8px #888888; border-radius: 8px; padding: 70px;">
+                    <h1>Quiz Completed!</h1>
+                    <p>Your final score is ${score} out of ${questions.length}</p>
+                    <button onclick="startQuiz()">Restart Quiz</button><br>
+                    <p>&#x26A0;Reload the page!</p>
+                </div>
+            `;
+            button.onclick="startQuiz()";
         }
 
-        nextButton.addEventListener("click", nextQuestion);
+        startQuiz();
 
-        startQuiz(); // Start quiz immediately
+
+
     </script>
 </html>
