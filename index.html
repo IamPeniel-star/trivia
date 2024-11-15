@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Quiz Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Trivia Quiz Game</h1>
+        <div id="question-container">
+            <p id="question"></p>
+            <div id="answer-buttons" class="btn-container"></div>
+        </div>
+        <button id="next-btn" onclick="nextQuestion()">Next Question</button>
+        <p id="score"></p>
+    </div>
+
+    
+</body>
+    <script>
+//         // Questions Array
+// const questions = [
+//     { question: "What is the capital of France?", answer: "Paris" },
+//     { question: "What is 2 + 2?", answer: "4" },
+//     { question: "What is the largest planet?", answer: "Jupiter" }
+// ];
+
+// // Game Variables
+// let currentQuestion = 0;
+// let score = 0;
+
+// // Function to Start Game
+// function startGame() {
+//     score = 0;
+//     currentQuestion = 0;
+//     showQuestion();
+// }
+
+// // Function to Show Question
+// function showQuestion() {
+//     if (currentQuestion < questions.length) {
+//         const q = questions[currentQuestion];
+//         const userAnswer = prompt(q.question);
+//         checkAnswer(userAnswer);
+//     } else {
+//         alert(`Game over! Your score is ${score}/${questions.length}`);
+//     }
+// }
+
+// // Function to Check Answer
+// function checkAnswer(userAnswer) {
+//     const correctAnswer = questions[currentQuestion].answer;
+//     if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+//         score++;
+//         alert("Correct!");
+//     } else {
+//         alert(`Wrong! The correct answer was ${correctAnswer}.`);
+//     }
+//     currentQuestion++;
+//     showQuestion();
+// }
+
+// // Start the game
+// startGame();
+
+
+        // Sample questions array
+const questions = [
+    {
+        question: "What is the capital of France?",
+        answers: [
+            { text: "Paris", correct: true },
+            { text: "London", correct: false },
+            { text: "Berlin", correct: false },
+            { text: "Madrid", correct: false }
+        ]
+    },
+    {
+        question: "What is 2 + 2?",
+        answers: [
+            { text: "3", correct: false },
+            { text: "4", correct: true },
+            { text: "22", correct: false },
+            { text: "5", correct: false }
+        ]
+    },
+    {
+        question: "What is the largest planet in our solar system?",
+        answers: [
+            { text: "Mars", correct: false },
+            { text: "Jupiter", correct: true },
+            { text: "Earth", correct: false },
+            { text: "Venus", correct: false }
+        ]
+    }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+const questionElement = document.getElementById("question");
+const answerButtonsElement = document.getElementById("answer-buttons");
+const nextButton = document.getElementById("next-btn");
+const scoreElement = document.getElementById("score");
+
+function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.style.display = "none";
+    scoreElement.innerText = "";
+    showQuestion();
+}
+
+function showQuestion() {
+    resetState();
+    const question = questions[currentQuestionIndex];
+    questionElement.innerText = question.question;
+
+    question.answers.forEach(answer => {
+        const button = document.createElement("button");
+        button.innerText = answer.text;
+        button.classList.add("btn");
+        button.addEventListener("click", () => selectAnswer(answer));
+        answerButtonsElement.appendChild(button);
+    });
+}
+
+function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtonsElement.firstChild) {
+        answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+    }
+}
+
+function selectAnswer(answer) {
+    if (answer.correct) {
+        score++;
+    }
+   
+    nextButton.style.display = "block";
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion();
+    } else {
+        endQuiz();
+    }
+}
+
+function endQuiz() {
+    questionElement.innerText = "Quiz Completed!";
+    scoreElement.innerText = `Your final score is ${score} out of ${questions.length}`;
+    nextButton.innerText = "Restart";
+    nextButton.onclick = startQuiz;
+}
+
+startQuiz();
+
+    </script>
+</html>
